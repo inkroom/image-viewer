@@ -1,0 +1,88 @@
+/**
+
+上下布局， 上方高清图，下方图片缩略图列表
+
+目前下部
+
+*/
+.images{
+
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    margin-bottom: -82px;/* 此处待优化， */
+
+    .preview{
+
+        height: 50%;
+        .img{
+            height: 85%;/* 此处待优化 */
+            padding:20px;
+            img{
+                height: 100%;
+            }
+        }
+    }
+
+    .list{
+        height: 50%;
+      //  overflow-y: auto;
+
+        .header{display: none;}
+
+
+            
+        .item{
+            display: inline-block;
+            padding-left: 10px;
+            padding-right: 10px;
+
+            &.selected{
+                .name {
+                    .img{
+                        background-color: rgb(119, 119, 119);
+                        border-radius: 10px;
+                    }
+                    .name-text{
+                        background-color: blue;
+                    }
+                }
+                
+            }
+
+            .width,.height,.size,.time{
+                display: none;
+            }
+
+            ul{
+                margin:0;padding:0;
+
+                li{
+                    list-style-type: none;
+                    display: inline-block;
+                }
+
+                .name{
+                    /* 图片在上，文件名在下 */
+                    .img{
+                        display: block;
+                        height: 100px;
+                        img{
+                            height: 100%;
+                            max-width: 120px;
+                        }
+                    }
+                    .name-text{
+                        display: block;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 120px;
+                    }
+                }
+            }
+            
+        }
+
+
+    }
+}

@@ -5,6 +5,8 @@ import {
   createProtocol,
   /* installVueDevtools */
 } from 'vue-cli-plugin-electron-builder/lib'
+import regiest from  './electron'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -16,8 +18,9 @@ protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: { secure: true
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600, webPreferences: {
-    nodeIntegration: true
+  win = new BrowserWindow({ x:-1600,y:0, width: 1680, height: 1000, webPreferences: {
+    nodeIntegration: true,
+    webSecurity:false
   } })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -71,6 +74,7 @@ app.on('ready', async () => {
 
   }
   createWindow()
+  regiest(win);
 })
 
 // Exit cleanly on request from parent process in development mode.

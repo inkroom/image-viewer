@@ -1,0 +1,65 @@
+.images{
+
+    @item-width: 20%;
+    @item-height: 20px;
+
+/*
+
+左右布局，左侧显示文件列表。右侧显示高清图片和图片信息
+
+*/
+
+    .preview{
+        float: right;
+        width: 50%;
+
+        .img{
+            padding:20px;
+            img{
+                height: 100%;
+                width: 100%;
+            }
+        }
+        .info{
+
+        }
+        
+    }
+
+    .list{
+
+        float: left;
+
+
+        .header{
+            span{
+                display: inline-block;
+                width: @item-width;
+            }
+        }
+        .item{
+            user-select: none;
+            &.selected{
+                background-color: rgb(143, 143, 199);
+            }
+            ul{
+                padding:7px;
+                margin: 0;
+                li{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    word-wrap: normal;
+
+                    display: inline-block;
+                    width:@item-width;
+                    .thumb {
+                        height: @item-height;
+                        margin-right: 10px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+          
+        }
+    }
+}
