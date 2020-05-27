@@ -2,7 +2,10 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/Images">Images</router-link>
+      <router-link to="/Images">Images</router-link> | 
+      <el-link @click="$store.commit('setTheme','style1')">主题1</el-link> | 
+      <el-link @click="$store.commit('setTheme','style2')">主题2</el-link> | 
+      <el-link @click="$store.commit('setTheme','style3')">主题3</el-link> | 
     </div>
     <router-view/>
   </div>
@@ -21,6 +24,10 @@ html,body{
   text-align: center;
 
   height: 100%;
+
+  margin-top:-82px;
+  padding-top:82px;
+  box-sizing: border-box;
 }
 
 #nav {

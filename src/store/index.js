@@ -11,11 +11,16 @@ const vuexLocal = new VuexPersistence({
 export default new Vuex.Store({
   plugins:[vuexLocal.plugin],
   state: {
-    imgs:[]
+    imgs:[],
+    theme:'style3',
   },
   mutations: {
     setImgs(state,imgs){
       state.imgs = imgs;
+    },
+    setTheme(state,theme){
+      console.log('设置样式',theme)
+      state.theme = theme;
     }
   },
   actions: {

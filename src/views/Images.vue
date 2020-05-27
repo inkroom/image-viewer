@@ -1,5 +1,5 @@
 <template>
-  <div class="images">
+  <div :class="['images',$store.state.theme]">
     
     <!-- 显示的图片 -->
     <div class="preview">
@@ -44,7 +44,7 @@
 
 <script>
 
-import '@/styles/images/style2.less'
+//import '@/styles/images/style3.less'
 
 export default {
   data(){
@@ -54,7 +54,17 @@ export default {
     
   },
   created(){
-    console.log('vuex的数据=',this.$store.state.imgs)
+    console.log('vuex的数据=',this.$store.state.imgs);
+    let p = this.$store.state.theme;
+    require('@/styles/images/'+p+'.less')
+  },
+
+  watch:{
+    "$store.state.theme"(nv){
+      console.log('引入',nv)
+      let p = nv;
+      require('@/styles/images/'+p+'.less')
+    }
   },
 
   methods:{
@@ -70,3 +80,18 @@ export default {
   }
 }
 </script>
+
+<style lang="less" >
+.images{
+  ul{
+    padding: 0;
+    margin: 0;
+    li{
+      list-style-type: none;
+    }
+  }
+  .el-scrollbar__wrap{
+    overflow-x: hidden;
+  }
+}
+</style>
