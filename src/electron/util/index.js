@@ -13,7 +13,7 @@ export function scanImgs(dir){
         let stat = fs.statSync(pathname);
 
         if(stat.isFile() && isImg(filename)){
-            imgs.push({path:pathname,size:stat.size,time:stat.birthtimeMs  });
+            imgs.push({path:pathname,size:stat.size,time:stat.birthtimeMs,name:filename  });
         }
     })
 
