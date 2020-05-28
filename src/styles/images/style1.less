@@ -3,11 +3,15 @@
     @item-width: 20%;
     @item-height: 20px;
 
+
+
 /*
 
 左右布局，左侧显示文件列表。右侧显示高清图片和图片信息
 
 */
+
+    height: 100%;
 
     .preview{
         float: right;
@@ -30,8 +34,16 @@
 
         float: left;
 
+        height: 100%;
+        position: relative;
 
         .header{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9;
+            background-color: black;
             span{
                 display: inline-block;
                 width: @item-width;
