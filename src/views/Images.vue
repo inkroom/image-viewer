@@ -3,8 +3,11 @@
     
     <!-- 显示的图片 -->
     <div class="preview">
+      <div class="operator">
+        <el-link @click="rotate">旋转</el-link>
+      </div>
       <div class="img">
-        <el-image  :src="'file://'+$store.state.imgs[selectIndex].path" lazy fit="scale-down">
+        <el-image  :src="base64 || ('file://'+$store.state.imgs[selectIndex].path)" lazy fit="scale-down" ref="preview" :style="{transform:'rotate('+angle+'deg) scale('+scale+')'}">
           <div slot="placeholder" class="loading">
             加载中<i class="el-icon-loading"></i>
           </div>
@@ -26,7 +29,7 @@
 
       <el-scrollbar style="height:100%">
         <div class="content" ref="content">
-          <div :class="['item',selectIndex == index ?'selected':'']" v-for="(item,index) in $store.state.imgs" :key="index" @click="selectIndex = index" ref="item">
+          <div :class="['item',selectIndex == index ?'selected':'']" v-for="(item,index) in $store.state.imgs" :key="index" @click=" select(index)" ref="item">
               <ul >
                 <li class="name">
                   <div class="img">
@@ -60,6 +63,9 @@ export default {
   data(){
     return {
       selectIndex:0,
+      angle:0,
+      scale:1,
+      base64:undefined,
     }
     
   },
@@ -90,6 +96,30 @@ export default {
   },
 
   methods:{
+
+    select(index){
+
+      
+      this.selectIndex = index;
+      this.base64 = undefined;
+      this.angle = 0;
+      this.scale = 1;
+    },
+    rotate(){
+      this.angle += 90;
+      // 获取视觉上的宽度
+      let width = (this.angle / 90 % 2) == 1 ? this.$refs.preview.$el.firstChild.clientHeight : this.$refs.preview.$el.firstChild.clientWidth;
+      let height = (this.angle / 90 % 2) == 1 ? this.$refs.preview.$el.firstChild.clientWidth : this.$refs.preview.$el.firstChild.clientHeight;
+      //计算缩放比例
+      let parentWidth = this.$refs.preview.$el.clientWidth;
+      let parentHeight = this.$refs.preview.$el.clientHeight;
+
+      console.log(`视觉宽度=${width}`)
+
+      this.scale = Math.min(width / parentWidth,height / parentHeight);
+      console.log('el',this.$refs.preview)
+
+    },
 
     keydown(event){
 
@@ -180,6 +210,14 @@ export default {
 
 <style lang="less" >
 .images{
+
+  .preview{
+    .operator{
+      position: absolute;
+      text-align: center;
+      width: 100%;
+    }
+  }
 
   .loading{
     height: 100%;
