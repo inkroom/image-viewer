@@ -4,7 +4,11 @@
     <!-- 显示的图片 -->
     <div class="preview">
       <div class="img">
-        <img :src="'file://'+$store.state.imgs[selectIndex].path"/>
+        <el-image  :src="'file://'+$store.state.imgs[selectIndex].path" lazy fit="scale-down">
+          <div slot="placeholder" class="loading">
+            加载中<i class="el-icon-loading"></i>
+          </div>
+        </el-image>
       </div>
       <div class="info">
        {{$store.state.imgs[selectIndex].name}} ({{$store.state.imgs[selectIndex].width}} x {{$store.state.imgs[selectIndex].height}}) {{humanSize($store.state.imgs[selectIndex].size)}}
@@ -25,7 +29,13 @@
           <div :class="['item',selectIndex == index ?'selected':'']" v-for="(item,index) in $store.state.imgs" :key="index" @click="selectIndex = index" ref="item">
               <ul >
                 <li class="name">
-                  <div class="img"><img :src="'file://'+item.path" alt="" class="thumb"></div>
+                  <div class="img">
+                    <el-image  :src="'file://'+item.path" class="thumb" lazy fit="scale-down" scroll-container=".el-scrollbar__wrap">
+                      <div slot="placeholder" class="loading">
+                        <i class="el-icon-loading"></i>
+                      </div>
+                    </el-image>
+                    </div>
                   <span class="name-text">{{ item.name }}</span>
                 </li>
                 <li class="width">{{ item.width }}</li>
@@ -170,6 +180,16 @@ export default {
 
 <style lang="less" >
 .images{
+
+  .loading{
+    height: 100%;
+    .el-icon-loading{
+      font-size: 33px;
+      margin-top: 70%;
+    }
+  }
+
+  
   ul{
     padding: 0;
     margin: 0;
