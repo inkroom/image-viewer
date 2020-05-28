@@ -56,18 +56,49 @@ export default {
   created(){
     console.log('vuex的数据=',this.$store.state.imgs);
     let p = this.$store.state.theme;
-    require('@/styles/images/'+p+'.less')
+    require('@/styles/images/'+p+'.less');
+
+
+    //key
+
+    document.onkeydown = this.keydown;
+  },
+
+  destroyed(){
+    document.onkeydown = null;
   },
 
   watch:{
     "$store.state.theme"(nv){
-      console.log('引入',nv)
       let p = nv;
       require('@/styles/images/'+p+'.less')
     }
   },
 
   methods:{
+
+    keydown(event){
+      switch(event.keyCode){
+        case 38:// 方向键向上
+
+          if(this.$store.state.theme==='style1'){
+            this.selectIndex = (this.selectIndex + this.$store.state.imgs.length - 1) % this.$store.state.imgs.length;
+            break;
+          }
+
+          break;
+        case 40://向下
+          if(this.$store.state.theme === 'style1'){
+            this.selectIndex = ( this.selectIndex + 1 ) % this.$store.state.imgs.length;
+            break;
+          }
+          break;
+        case 37://left
+          break;
+        case 39:// right
+          break;
+      }
+    },
 
     humanSize(size){
       if (size < 1024) return size +' B';
