@@ -21,8 +21,8 @@
       </div>
 
       <el-scrollbar style="height:100%">
-        <div class="content">
-          <div :class="['item',selectIndex == index ?'selected':'']" v-for="(item,index) in $store.state.imgs" :key="index" @click="selectIndex = index">
+        <div class="content" ref="content">
+          <div :class="['item',selectIndex == index ?'selected':'']" v-for="(item,index) in $store.state.imgs" :key="index" @click="selectIndex = index" ref="item">
               <ul >
                 <li class="name">
                   <div class="img"><img :src="'file://'+item.path" alt="" class="thumb"></div>
@@ -59,6 +59,10 @@ export default {
     require('@/styles/images/'+p+'.less');
 
 
+   
+  },
+
+  mounted(){
     //key
 
     document.onkeydown = this.keydown;
@@ -78,6 +82,24 @@ export default {
   methods:{
 
     keydown(event){
+
+      let t;
+
+          //计算每行最多多少个元素
+      let contentWidth =this.$refs.content.offsetWidth;
+      let itemWidth = this.$refs.item[this.selectIndex].offsetWidth;
+
+      let colCount = Math.floor (contentWidth / itemWidth);//向下取整
+
+      let rowCount = Math.ceil(this.$store.state.imgs.length / colCount) ;// 向上取整
+
+      console.log(`每行${colCount} 共 ${rowCount} 行，共计${colCount * rowCount},${this.$store.state.imgs.length}` )
+
+      //获取当前元素所在行、列，起始0
+      let row = Math.ceil ((this.selectIndex + 1) / colCount ) - 1;
+      let col = this.selectIndex - row * colCount 
+
+      let index;
       switch(event.keyCode){
         case 38:// 方向键向上
 
@@ -86,16 +108,50 @@ export default {
             break;
           }
 
+          t = row;
+          //向上则，列不变，行-1
+          row = ( row + rowCount - 1) % rowCount;
+
+          console.log(`当前坐标(${t},${col}；新坐标(${row},${col} )`)
+
+          //根据新的行列坐标，计算出新的数组下标
+          index = ( row * colCount ) + col ;
+          //最后一行可能不够数量，
+          this.selectIndex = Math.min(index,this.$store.state.imgs.length - 1);
           break;
         case 40://向下
           if(this.$store.state.theme === 'style1'){
             this.selectIndex = ( this.selectIndex + 1 ) % this.$store.state.imgs.length;
             break;
           }
+
+          //列不变，行+1
+          row = ( row + 1) % rowCount;
+          index = ( row * colCount ) + col ;
+          this.selectIndex = Math.min(index,this.$store.state.imgs.length - 1);
+
+
           break;
         case 37://left
+          //行不变，列-1
+          t = col;
+          col = ( col + colCount - 1) % colCount;
+          index = ( row * colCount ) + col ;
+          this.selectIndex = Math.min(index,this.$store.state.imgs.length - 1);
+
+          console.log(`当前坐标(${row},${t}；新坐标(${row},${col} )`)
+
+
           break;
         case 39:// right
+          t = col;
+          //行不变，列+1
+          col = ( col + 1) % colCount;
+          index = ( row * colCount ) + col ;
+          this.selectIndex = Math.min(index,this.$store.state.imgs.length - 1);
+
+          console.log(`当前坐标(${row},${t}；新坐标(${row},${col} )`)
+
           break;
       }
     },
